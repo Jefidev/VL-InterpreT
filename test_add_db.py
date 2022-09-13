@@ -6,11 +6,10 @@ import numpy as np
 import pickle
 from collections import defaultdict
 
-db = VliDataBaseAnalyzer('example_database6', read_only=False)
 
 # data = model.data_setup(ex_id, image_in, text_in)
 
-ex_id = 3
+ex_id = 2
 
 
 data = {
@@ -57,4 +56,6 @@ data = {
             'custom_metrics': {'Example Custom Metrics': np.random.rand(12, 12)}
         }
 
-db.add_example(ex_id, data)
+with VliDataBaseAnalyzer('example_database6', read_only=False) as db:
+        print(db)
+        db.add_example(ex_id, data)

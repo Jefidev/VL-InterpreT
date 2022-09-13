@@ -22,15 +22,30 @@ class VliDataBaseAnalyzer:
             return pickle.loads(self.db[item])
         return self.db[item]
 
-    def __del__(self):
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exec_info):
         if self.updated:
+            from collections import defaultdict
             print('Writing new examples to database...')
             self.db['faiss'] = pickle.dumps(self.faiss_data, protocol=pickle.HIGHEST_PROTOCOL)
             faiss_path = os.path.join(self.db.path, 'faiss')
             for layer in range(self['n_layers'] + 1):
                 faiss.write_index(self.faiss_indices[(layer, 'txt')], os.path.join(faiss_path, f'txt_indices_{layer}'))
                 faiss.write_index(self.faiss_indices[(layer, 'img')], os.path.join(faiss_path, f'img_indices_{layer}'))
-            print('Done.')
+            print('Done.')        
+
+    # def __del__(self):
+    #     if self.updated:
+    #         from collections import defaultdict
+    #         print('Writing new examples to database...')
+    #         self.db['faiss'] = pickle.dumps(self.faiss_data, protocol=pickle.HIGHEST_PROTOCOL)
+    #         faiss_path = os.path.join(self.db.path, 'faiss')
+    #         for layer in range(self['n_layers'] + 1):
+    #             faiss.write_index(self.faiss_indices[(layer, 'txt')], os.path.join(faiss_path, f'txt_indices_{layer}'))
+    #             faiss.write_index(self.faiss_indices[(layer, 'img')], os.path.join(faiss_path, f'img_indices_{layer}'))
+    #         print('Done.')
 
     def add_example(self, ex_id, ex_data):
         self.faiss_indices, self.faiss_data = self.db.preprocess_example(ex_id, ex_data, self.faiss_indices, self.faiss_data)
