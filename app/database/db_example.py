@@ -1,6 +1,9 @@
 import pickle
 import numpy as np
 from database import VliLmdb
+import warnings
+
+warnings.filterwarnings("ignore")
 
 if __name__ == '__main__':
 
@@ -46,7 +49,7 @@ if __name__ == '__main__':
                 # Shape: (n_layers + 1, n_tokens, hidden_state_vector_size)
                 # Note that in our demo app, hidden representations of stop words were removed
                 # to reduce the number of displayed datapoints
-                'hidden_states': np.random.rand(13, 14, 768),
+                'hidden_states': np.random.rand(13, 50, 768),
 
                 # (Optional) Custom statistics for attention heads in all layers
                 # Shape: (n_layers, n_attention_heads_per_layer)
@@ -57,7 +60,7 @@ if __name__ == '__main__':
 
     # Create database
     print('Creating database...')
-    db = VliLmdb(db_dir='example_database1', read_only=False)
+    db = VliLmdb(db_dir='example_database6', read_only=False)
     for ex_id, ex_data in enumerate(example_data):
         # Keys must be strings
         db[str(ex_id)] = pickle.dumps(ex_data, protocol=pickle.HIGHEST_PROTOCOL)

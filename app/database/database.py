@@ -108,6 +108,7 @@ class VliLmdb(object):
                 if not ex_id.isdigit():
                     continue
                 ex_data = pickle.loads(msgpack.loads(decompress(value), raw=False))
+                print(len(ex_data['hidden_states'][0]))
                 faiss_indices, faiss_data = self.preprocess_example(ex_id, ex_data, faiss_indices, faiss_data)
         
         n_layers, n_heads, _, _ = ex_data['attention'].shape
