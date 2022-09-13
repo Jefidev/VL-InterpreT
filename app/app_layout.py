@@ -87,12 +87,14 @@ def get_layout(n_examples, n_layers):
                             html.Label("Image", className="plot-label", style={"margin-right": "10px"}),
                             dcc.Input(
                                 id="new_ex_img",
-                                placeholder="Enter URL or path",
+                                # placeholder="Enter URL or path",
+                                value='https://lh3.googleusercontent.com/p/AF1QipPNfnW-ALDJ8LhK9QPjFhnhp6zr360oFvIrYBbH=w1080-h608-p-k-no-v0',
                                 style={"width": "80%", "max-width": "600px", "margin": "5px"})
                         ]), html.Div([
                             html.Label("Text", className="plot-label", style={"margin-right": "10px"}),
                             dcc.Input(id="new_ex_txt",
-                                      placeholder="Enter text",
+                                      value='Hamburgers displayed at a restaurant',
+                                    #   placeholder="Enter text",
                                       style={"width": "80%", "max-width": "600px", "margin": "5px"})
                         ]),
                         html.Button("Add", id="add_ex_btn",
