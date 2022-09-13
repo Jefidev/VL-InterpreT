@@ -1,13 +1,7 @@
-import sys
-sys.path.append('/vl-interpret/VL-InterpreT/')
+import numpy as np
 
 from app.database.db_analyzer import VliDataBaseAnalyzer
-import numpy as np
-import pickle
-from collections import defaultdict
 
-
-# data = model.data_setup(ex_id, image_in, text_in)
 
 ex_id = 2
 
@@ -57,5 +51,4 @@ data = {
         }
 
 with VliDataBaseAnalyzer('example_database6', read_only=False) as db:
-        print(db)
         db.add_example(ex_id, data)
