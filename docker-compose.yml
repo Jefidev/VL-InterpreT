@@ -1,0 +1,16 @@
+version: '2.3'
+services:
+  audioclip:
+    shm_size: '1024m'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: vl-interpret
+    tty: true
+    volumes:
+      - .:/vl-interpret
+    ports:
+      - 6006:6006
+    environment:
+      - PASSWORD=none
+    working_dir: /vl-interpret
