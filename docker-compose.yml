@@ -1,6 +1,6 @@
 version: '2.3'
 services:
-  audioclip:
+  vl-interpret:
     shm_size: '1024m'
     build:
       context: .
