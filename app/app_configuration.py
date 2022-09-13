@@ -28,11 +28,11 @@ def configure_app(db_dir, model=None):
     )
     def toggle_add_example(n_clicks):
         if model is None:
-            return {'display': 'none'}, {'display': 'none'}
+            return {'display': 'inline-block'}, {'display': 'inline-block'}
         if not n_clicks:
             raise PreventUpdate
         if n_clicks % 2 == 0:
-            return {'display': 'none'}, {'padding': '0 15px'}
+            return {'display': 'inline-block'}, {'padding': '0 15px'}
         return {}, {'padding': '0 15px', 'background': 'lightgrey'}
 
 

@@ -99,7 +99,7 @@ def get_layout(n_examples, n_layers):
                                     style={"padding": "0 15px", "margin": "5px", "background": "white"})],
                         style={"margin": "5px 10%", "padding": "5px", "background": "#f1f1f1"})],
                  id="add_ex_div",
-                 style={"display": "none"})
+                 style={"display": "inline-block"})
                 ],
                 style={"text-align": "center", "margin": "2%"},
             ),
