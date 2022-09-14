@@ -64,6 +64,8 @@ class Apimodel(VL_Model):
         response = requests.get(image_location)
         image_numpy = skimage.io.imread( image_location )
 
+        print(image_numpy.shape)
+
         splitted = input_text.split(" ")
         txt_len = len(splitted)+2
         tokens = ["[CLS]"] + splitted + ['[SEP]','IMG_0', 'IMG_1', 'IMG_2', 'IMG_3', 'IMG_4', 'IMG_5']
@@ -77,7 +79,7 @@ class Apimodel(VL_Model):
 
             'txt_len': txt_len,
             'img_coords': [(0, 0), (0, 1), (1, 0), (1, 1), (2, 0), (2, 1)],
-            'accuracy': example_id % 2 == 0,  
+            'accuracy': 0.87,  
 
             'attention': np.random.rand(12, 12, 14, 14),
             'hidden_states': np.random.rand(13, 50, 768),
