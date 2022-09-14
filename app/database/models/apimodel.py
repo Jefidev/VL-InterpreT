@@ -3,9 +3,12 @@ try:
 except ModuleNotFoundError:
     from vl_model import VL_Model
 
+from email.utils import parsedate
 import requests
 import numpy as np
-import skimage
+from PIL import Image
+import json
+import io
 
 
 class Apimodel(VL_Model):
@@ -38,20 +41,23 @@ class Apimodel(VL_Model):
             "text": input_text
         }
 
-        response = requests.post(get_data_url, headers=headers, json=payload)
-        parsed_response = response.json()
+        #response = requests.post(get_data_url, headers=headers, json=payload)
+        #parsed_response = response.json()
 
+        parsed_response = self.get_from_json()
+
+        print(parsed_response.keys())
 
         # Serialize JSON for future test
         
-
+        image = Image.open(io.BytesIO(image_location))
         len_img = len(parsed_response["image"])
         txt_tokens = parsed_response["tokens"] 
         hidden_state = parsed_response["hidden"]
 
         return {
             'ex_id': example_id,
-            'image': parsed_response["image"],
+            'image': image,
             'tokens': parsed_response["tokens"],
             'txt_len': len(txt_tokens),
             'attention': np.array(parsed_response["attention"]),
@@ -89,3 +95,13 @@ class Apimodel(VL_Model):
             'hidden_states': np.random.rand(13, 50, 768),
             'custom_metrics': {'Example Custom Metrics': np.random.rand(12, 12)}
         }
+
+
+    def get_from_json(self):
+        json_file = "./response_xai.json"
+
+        json1_file = open(json_file)
+        json1_str = json1_file.read()
+        json1_data = json.loads(json1_str)
+
+        return json1_data
