@@ -9,6 +9,7 @@ import numpy as np
 from PIL import Image
 import json
 import io
+import urllib
 
 
 class Apimodel(VL_Model):
@@ -19,7 +20,7 @@ class Apimodel(VL_Model):
     '''
 
     def __init__(self):
-        self.api_url = "clip-api:5000"
+        self.api_url = "http://clip-api:5000"
         
 
 
@@ -33,7 +34,7 @@ class Apimodel(VL_Model):
         #return self.dummy_response(example_id, image_location, input_text)
 
         # to do : adapt to API
-        get_data_url = f"{self.api_url}/attention"
+        get_data_url = f"{self.api_url}/attentions"
 
         headers = {'Content-Type': 'application/json'}
         payload = {
@@ -41,26 +42,30 @@ class Apimodel(VL_Model):
             "text": input_text
         }
 
-        #response = requests.post(get_data_url, headers=headers, json=payload)
-        #parsed_response = response.json()
+        response = requests.post(get_data_url, headers=headers, json=payload)
+        parsed_response = response.json()
 
-        parsed_response = self.get_from_json()
+        # parsed_response = self.get_from_json()
 
         print(parsed_response.keys())
 
         # Serialize JSON for future test
         
-        image = Image.open(io.BytesIO(image_location))
-        len_img = len(parsed_response["image"])
-        txt_tokens = parsed_response["tokens"] 
-        hidden_state = parsed_response["hidden"]
+        # image = Image.open(io.BytesIO(imtage_locaion))
+        with urllib.request.urlopen(image_location) as url:
+            f = io.BytesIO(url.read())
+        image = Image.open(f)
+
+        # len_img = len(image)
+        txt_tokens = [] 
+        hidden_state = [] # parsed_response["hidden"]
 
         return {
             'ex_id': example_id,
             'image': image,
-            'tokens': parsed_response["tokens"],
+            'tokens': txt_tokens,
             'txt_len': len(txt_tokens),
-            'attention': np.array(parsed_response["attention"]),
+            'attention': np.array(parsed_response["image_attention"]),
             'img_coords': parsed_response["img_coords"],
             'hidden_states': np.array(hidden_state)
         }
