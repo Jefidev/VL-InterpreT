@@ -8,7 +8,6 @@ import numpy as np
 import skimage
 
 
-
 class Apimodel(VL_Model):
     '''
     Running APIModel with VL-Interpret:
@@ -33,15 +32,15 @@ class Apimodel(VL_Model):
         # to do : adapt to API
         get_data_url = f"{self.api_url}/attention"
 
+        headers = {'Content-Type': 'application/json'}
         payload = {
             "img_url": image_location,
             "text": input_text
         }
 
-        response = requests.post(get_data_url, data=payload)
+        response = requests.post(get_data_url, headers=headers, json=payload)
         parsed_response = response.json()
 
-        print(parsed_response)
 
         # Serialize JSON for future test
         
