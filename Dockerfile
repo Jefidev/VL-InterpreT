@@ -7,4 +7,4 @@ RUN pip install -r requirements.txt
 RUN mkdir /vl-interpret
 WORKDIR /vl-interpret
 
-CMD python run_app.py -p 6006 -d example_database6
+CMD python run_app.py -p 6006 -d example_database6 -m ApiModel

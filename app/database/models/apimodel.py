@@ -17,7 +17,7 @@ class Apimodel(VL_Model):
     '''
 
     def __init__(self):
-        self.api_url = "url"
+        self.api_url = "clip-api:5000"
         
 
 
@@ -28,10 +28,10 @@ class Apimodel(VL_Model):
         of the return data format, and see the implementation in kdvlp.py for an example.
         '''
 
-        return self.dummy_response(example_id, image_location, input_text)
+        #return self.dummy_response(example_id, image_location, input_text)
 
         # to do : adapt to API
-        get_data_url = f"{self.api_url}/dummy"
+        get_data_url = f"{self.api_url}/attention"
 
         payload = {
             "img_url": image_location,
@@ -40,6 +40,11 @@ class Apimodel(VL_Model):
 
         response = requests.post(get_data_url, data=payload)
         parsed_response = response.json()
+
+        print(parsed_response)
+
+        # Serialize JSON for future test
+        
 
         len_img = len(parsed_response["image"])
         txt_tokens = parsed_response["tokens"] 
