@@ -42,10 +42,10 @@ class Apimodel(VL_Model):
             "text": input_text
         }
 
-        response = requests.post(get_data_url, headers=headers, json=payload)
-        parsed_response = response.json()
+        #response = requests.post(get_data_url, headers=headers, json=payload)
+        #parsed_response = response.json()
 
-        # parsed_response = self.get_from_json()
+        parsed_response = self.get_from_json()
 
         print(parsed_response.keys())
 
@@ -57,15 +57,29 @@ class Apimodel(VL_Model):
         image = Image.open(f)
 
         # len_img = len(image)
-        txt_tokens = [] 
-        hidden_state = [] # parsed_response["hidden"]
+        tokens = parsed_response["tokens"]
+        text_len = tokens.index("<SEP>") + 1
+
+        # relevance
+        hidden_state =  []
+
+
+        # Concat the attentions 
+        img_attentions = np.array(parsed_response["image_attention"])
+        txt_attentions = np.array(parsed_response["text_attention"])
+
+        img_size = img_attentions.shape[2]
+        txt_attentions = txt_attentions[:, :, :img_size, :img_size]
+
+        attentions = np.concatenate((txt_attentions, img_attentions),axis=1)
+        print(attentions.shape)
 
         return {
             'ex_id': example_id,
             'image': image,
-            'tokens': txt_tokens,
-            'txt_len': len(txt_tokens),
-            'attention': np.array(parsed_response["image_attention"]),
+            'tokens': tokens,
+            'txt_len': text_len,
+            'attention': attentions,
             'img_coords': parsed_response["img_coords"],
             'hidden_states': np.array(hidden_state)
         }
