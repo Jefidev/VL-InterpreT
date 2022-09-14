@@ -7,4 +7,7 @@ RUN pip install -r requirements.txt
 RUN mkdir /vl-interpret
 WORKDIR /vl-interpret
 
-CMD python run_app.py -p 6006 -d example_database6 -m ApiModel
+RUN pip install dash_bootstrap_components
+
+# CMD python run_app.py -p 6006 -d example_database6 -m ApiMode
+CMD python app.py
